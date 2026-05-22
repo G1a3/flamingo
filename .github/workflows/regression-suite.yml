@@ -103,7 +103,7 @@ jobs:
             if [ "${{ github.event_name }}" = "pull_request" ]; then
               echo "Download the \`allure-report\` artifact (Pages deploy runs on \`main\` only)."
             else
-              echo "[${URL}](${URL})"
+              echo "Published report: [**Allure Report**](${URL})"
               echo ""
               echo "If the site shows 404, wait 1–2 minutes for GitHub Pages to build, then refresh."
             fi
