@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Ignored tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "API defects",
+    "matchedStatuses": ["failed", "broken"]
+  },
+  {
+    "name": "UI defects",
+    "matchedStatuses": ["failed", "broken"]
+  }
+]
