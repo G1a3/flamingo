@@ -147,7 +147,7 @@ GitHub Actions workflow **Regression suite** (`.github/workflows/regression-suit
 1. Open **Actions** → **Regression suite** → latest run → **Summary**
 2. Click **Allure Report** (or open `https://g1a3.github.io/flamingo/` after Pages is enabled)
 
-The workflow deploys `target/allure-report` to the `gh-pages` branch and enables Pages via API. After a successful run on `main`, open:
+The workflow deploys `target/allure-report` to the `gh-pages` branch. After a successful run on `main`, open:
 
 **https://g1a3.github.io/flamingo/**
 

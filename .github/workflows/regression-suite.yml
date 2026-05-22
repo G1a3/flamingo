@@ -9,8 +9,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   regression-suite:
@@ -64,34 +62,6 @@ jobs:
           force_orphan: true
           enable_jekyll: false
 
-      - name: Enable GitHub Pages (gh-pages branch)
-        if: always() && github.event_name != 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            const source = { branch: 'gh-pages', path: '/' };
-            try {
-              await github.rest.repos.getPages({ owner, repo });
-              await github.rest.repos.updatePagesSite({
-                owner,
-                repo,
-                build_type: 'legacy',
-                source
-              });
-            } catch (error) {
-              if (error.status === 404) {
-                await github.rest.repos.createPagesSite({
-                  owner,
-                  repo,
-                  build_type: 'legacy',
-                  source
-                });
-              } else {
-                throw error;
-              }
-            }
-
       - name: Add Allure report link to summary
         if: always()
         run: |
@@ -105,10 +75,8 @@ jobs:
             else
               echo "Published report: [**Allure Report**](${URL})"
               echo ""
-              echo "If the site shows 404, wait 1–2 minutes for GitHub Pages to build, then refresh."
+              echo "If the link shows 404, enable Pages once: [Settings → Pages](https://github.com/${{ github.repository }}/settings/pages) → **Deploy from a branch** → \`gh-pages\` / \`(root)\` → Save, then wait 1–2 minutes."
             fi
-            echo ""
-            echo "Manual setup (only if still 404): [Pages settings](https://github.com/${{ github.repository }}/settings/pages) → Deploy from branch \`gh-pages\` / \`(root)\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Surefire reports
