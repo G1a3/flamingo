@@ -11,10 +11,16 @@ jobs:
   regression-suite:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      MAVEN_OPTS: ''
+      JAVA_TOOL_OPTIONS: ''
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Remove local Maven JVM flags (Java 17 incompatible)
+        run: rm -f .mvn/jvm.config
 
       - name: Set up Java
         uses: actions/setup-java@v4

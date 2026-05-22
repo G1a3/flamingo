@@ -136,7 +136,7 @@ The framework prioritizes **maintainability and clear separation of concerns** o
 
 ## CI/CD
 
-GitHub Actions workflow (`.github/workflows/tests.yml`) runs on push/PR to `main`/`master`:
+GitHub Actions workflow **Regression suite** (`.github/workflows/regression-suite.yml`) runs on push/PR to `main`/`master`:
 
 1. Java 17 + Maven cache
 2. Playwright Chromium install

@@ -186,12 +186,19 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
-          <argLine>--sun-misc-unsafe-memory-access=allow</argLine>
           <groups>${groups}</groups>
           <excludedGroups>${excludedGroups}</excludedGroups>
           <systemPropertyVariables>
             <allure.results.directory>${allure.results.directory}</allure.results.directory>
           </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <classpathScope>test</classpathScope>
         </configuration>
       </plugin>
       <plugin>
@@ -206,4 +213,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
