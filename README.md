@@ -144,13 +144,17 @@ GitHub Actions workflow **Regression suite** (`.github/workflows/regression-suit
 
 ### Allure report link (after each CI run)
 
-1. Open the workflow run in **Actions** → **Regression suite**
-2. Click the **github-pages** environment link (top right), or open **Summary** and use **Allure Report**
-3. Direct URL pattern: `https://<your-github-username>.github.io/<repo-name>/`
+1. Open **Actions** → **Regression suite** → latest run → **Summary**
+2. Click **Allure Report** (or open `https://g1a3.github.io/flamingo/` after Pages is enabled)
 
-**One-time repo setup:** Settings → **Pages** → Build and deployment → Source: **GitHub Actions**.
+**One-time GitHub Pages setup** (required once per repo):
 
-Artifacts (Surefire XML, Allure HTML zip) are also available under **Artifacts** on the workflow run.
+1. [Settings → Pages](https://github.com/G1a3/flamingo/settings/pages)
+2. **Build and deployment → Source:** Deploy from a branch
+3. **Branch:** `gh-pages` / `(root)` → **Save**
+4. Re-run **Regression suite** — the workflow pushes the report to the `gh-pages` branch automatically
+
+If the site is not ready yet, download the **allure-report** artifact from the workflow run.
 
 ## Tech Stack
 

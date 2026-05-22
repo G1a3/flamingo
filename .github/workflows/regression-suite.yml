@@ -8,13 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  contents: write
 
 jobs:
   regression-suite:
@@ -54,6 +48,34 @@ jobs:
         if: always()
         run: mvn -B -ntp allure:report
 
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        continue-on-error: true
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/allure-report
+
+      - name: Add Allure report link to summary
+        if: always()
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          URL="https://${OWNER}.github.io/${REPO}/"
+          {
+            echo "### Allure Report"
+            echo "Published report: [**Allure Report**](${URL})"
+            echo ""
+            echo "**First-time setup (if the link is 404):**"
+            echo "1. Open [Repository Pages settings](https://github.com/${{ github.repository }}/settings/pages)"
+            echo "2. **Build and deployment → Source:** Deploy from a branch"
+            echo "3. **Branch:** \`gh-pages\` / \`(root)\` → Save"
+            echo "4. Re-run this workflow"
+            echo ""
+            echo "Fallback: download the \`allure-report\` artifact and run \`mvn allure:serve\` locally."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Surefire reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -77,27 +99,3 @@ jobs:
           name: allure-report
           path: target/allure-report/
           retention-days: 14
-
-      - name: Upload Allure report for GitHub Pages
-        if: always()
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: target/allure-report
-
-  publish-allure-report:
-    needs: regression-suite
-    if: always()
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy Allure report to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Add Allure report link to job summary
-        run: |
-          echo "### Allure Report" >> "$GITHUB_STEP_SUMMARY"
-          echo "Open the interactive report: [**Allure Report**](${{ steps.deployment.outputs.page_url }})" >> "$GITHUB_STEP_SUMMARY"
