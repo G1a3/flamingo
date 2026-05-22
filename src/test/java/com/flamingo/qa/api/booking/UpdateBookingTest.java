@@ -11,6 +11,8 @@ import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Feature("Update Booking API Tests")
@@ -28,9 +30,13 @@ class UpdateBookingTest extends BaseBookerApiTest {
         int bookingId = created.getBookingid();
         Booking originalBooking = created.getBooking();
 
+        LocalDate newCheckin = originalBooking.getBookingdates().getCheckin().plusDays(30);
+        LocalDate newCheckout = originalBooking.getBookingdates().getCheckout().plusDays(35);
+
         BookingRequest updateRequest = bookingData.buildBooking(builder -> builder
                 .depositpaid(!originalRequest.getDepositpaid())
-                .additionalneeds(AdditionalNeeds.BREAKFAST));
+                .additionalneeds(AdditionalNeeds.BREAKFAST)
+                .bookingdates(bookingData.bookingDates(newCheckin, newCheckout)));
 
         Response updateResponse = bookingController.bookingPUT(bookingId, updateRequest);
         BookingAssertions.assertOk(updateResponse);

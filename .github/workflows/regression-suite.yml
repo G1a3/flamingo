@@ -32,8 +32,11 @@ jobs:
       - name: Compile tests
         run: mvn -B -ntp test-compile
 
-      - name: Install Playwright browsers
-        run: mvn -B -ntp exec:java -Dexec.mainClass=com.microsoft.playwright.CLI "-Dexec.args=install --with-deps chromium"
+      - name: Install Playwright system dependencies
+        run: mvn -B -ntp exec:java -Dexec.mainClass=com.microsoft.playwright.CLI "-Dexec.args=install-deps"
+
+      - name: Install Playwright Chromium
+        run: mvn -B -ntp exec:java -Dexec.mainClass=com.microsoft.playwright.CLI "-Dexec.args=install chromium"
 
       - name: Run tests
         run: mvn -B -ntp test -Dheadless=true

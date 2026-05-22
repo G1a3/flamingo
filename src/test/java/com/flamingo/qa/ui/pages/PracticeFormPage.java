@@ -6,6 +6,7 @@ import com.flamingo.qa.ui.model.PracticeFormData;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.WaitForSelectorState;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -112,9 +113,11 @@ public class PracticeFormPage extends BasePage {
     public PracticeFormPage selectStateAndCity(String state, String city) {
         AllureSteps.step("Select state and city: " + state + ", " + city, page, () -> {
             stateDropdown.click();
-            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(state)).click();
+            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(state).setExact(true)).click();
             cityDropdown.click();
-            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(city)).click();
+            Locator cityOption = page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(city).setExact(true));
+            cityOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+            cityOption.click();
         });
         return this;
     }
