@@ -132,17 +132,25 @@ The framework prioritizes **maintainability and clear separation of concerns** o
 - **Custom waits** — centralized Playwright wait utilities for slow DemoQA widgets
 - **API contract checks** — JSON Schema validation on REST and GraphQL responses
 - **Enrollment / additional UI flows** if required by expanded scope
-- **Allure report publishing** — GitHub Pages or PR comment with report link from CI artifacts
-
 ## CI/CD
 
 GitHub Actions workflow **Regression suite** (`.github/workflows/regression-suite.yml`) runs on push/PR to `main`/`master`:
 
 1. Java 17 + Maven cache
-2. Playwright Chromium install
-3. `mvn clean test`
-4. Allure report generation
-5. Artifacts: Surefire reports, Allure results, Allure HTML report
+2. Playwright Chromium + OS dependencies install
+3. `mvn test`
+4. Allure report generation (pass or fail)
+5. **Published Allure report** on GitHub Pages with a clickable link
+
+### Allure report link (after each CI run)
+
+1. Open the workflow run in **Actions** → **Regression suite**
+2. Click the **github-pages** environment link (top right), or open **Summary** and use **Allure Report**
+3. Direct URL pattern: `https://<your-github-username>.github.io/<repo-name>/`
+
+**One-time repo setup:** Settings → **Pages** → Build and deployment → Source: **GitHub Actions**.
+
+Artifacts (Surefire XML, Allure HTML zip) are also available under **Artifacts** on the workflow run.
 
 ## Tech Stack
 

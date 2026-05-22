@@ -7,6 +7,15 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   regression-suite:
     runs-on: ubuntu-latest
@@ -68,3 +77,27 @@ jobs:
           name: allure-report
           path: target/allure-report/
           retention-days: 14
+
+      - name: Upload Allure report for GitHub Pages
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/allure-report
+
+  publish-allure-report:
+    needs: regression-suite
+    if: always()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy Allure report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Add Allure report link to job summary
+        run: |
+          echo "### Allure Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "Open the interactive report: [**Allure Report**](${{ steps.deployment.outputs.page_url }})" >> "$GITHUB_STEP_SUMMARY"
