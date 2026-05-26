@@ -22,6 +22,7 @@ public class BookingController extends BookerApiClient {
                 .response();
     }
 
+    // Bad practice to check status code here
     public Response bookingPUT(int bookingId, BookingRequest bookingRequest) {
         return given().spec(authenticatedRequestSpec())
                 .basePath(bookingPath(bookingId))

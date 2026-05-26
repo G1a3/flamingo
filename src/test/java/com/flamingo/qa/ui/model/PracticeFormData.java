@@ -34,7 +34,7 @@ public record PracticeFormData(
     public static PracticeFormData fromFaker(Faker faker) {
         var dob = faker.timeAndDate().birthday(18, 65);
         var month = dob.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        var location = faker.options().option(LOCATIONS);
+        StateCity location = faker.options().option(LOCATIONS);
 
         return new PracticeFormData(
                 faker.name().firstName(),

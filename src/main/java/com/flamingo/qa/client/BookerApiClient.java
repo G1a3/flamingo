@@ -1,7 +1,6 @@
 package com.flamingo.qa.client;
 
 import com.flamingo.qa.responses.AuthResponse;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
@@ -11,6 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class BookerApiClient extends ApiClient {
 
+    // Bad practice
     public static final String DEFAULT_USERNAME = "admin";
     public static final String DEFAULT_PASSWORD = "password123";
 

@@ -16,6 +16,7 @@ class PracticeFormTest extends BaseUiTest {
     @Test
     @Description("Submit DemoQA practice form with faker data and verify confirmation modal")
     void userCanSubmitPracticeForm() {
+        // Bad practice
         PracticeFormData data = Allure.step(
                 "Generate practice form test data",
                 () -> PracticeFormData.fromFaker(faker));

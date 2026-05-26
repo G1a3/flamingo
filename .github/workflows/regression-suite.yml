@@ -14,6 +14,9 @@ jobs:
   regression-suite:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment:
+      name: Allure Report
+      url: https://g1a3.github.io/flamingo/
     env:
       MAVEN_OPTS: ''
       JAVA_TOOL_OPTIONS: ''
@@ -75,7 +78,9 @@ jobs:
             else
               echo "Published report: [**Allure Report**](${URL})"
               echo ""
-              echo "If the link shows 404, enable Pages once: [Settings → Pages](https://github.com/${{ github.repository }}/settings/pages) → **Deploy from a branch** → \`gh-pages\` / \`(root)\` → Save, then wait 1–2 minutes."
+              echo "After this run, GitHub may start **pages build and deployment** on \`gh-pages\` — the deploy job link there opens the same report."
+              echo ""
+              echo "Artifact fallback: download \`allure-report\` below."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 

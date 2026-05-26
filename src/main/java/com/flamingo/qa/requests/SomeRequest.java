@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-// Bad practice
-public class BookingRequest {
+public class SomeRequest {
     private String firstname;
     private String lastname;
     private Number totalprice;

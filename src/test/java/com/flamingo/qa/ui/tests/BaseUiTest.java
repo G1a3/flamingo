@@ -34,6 +34,7 @@ public abstract class BaseUiTest implements PlaywrightAware {
                 new BrowserType.LaunchOptions().setHeadless(UiConfig.headless()));
         context = browser.newContext();
         page = context.newPage();
+        page.setDefaultTimeout(45_000);
     }
 
     @AfterEach

@@ -13,7 +13,12 @@ public class ApiClient {
 
     protected static final String BOOKER_BASE_URI = "https://restful-booker.herokuapp.com";
 
-    static {
+     /**
+      * Configures REST Assured global settings,
+      * Logs requests/responses on validation failures
+      * cConfigures Jackson ObjectMapper to properly handle Java date/time types
+     */
+     static {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.config = RestAssured.config()
@@ -26,11 +31,13 @@ public class ApiClient {
                         }));
     }
 
+    // Adds an Allure filter to REST Assured, which captures HTTP request and response details and attaches them to the Allure report
     protected static RequestSpecBuilder buildRequestSpec() {
         return buildPlainRequestSpec()
                 .addFilter(new AllureRestAssured());
     }
 
+    // Builds an HTTP request template for REST Assured — common settings that are then applied to each API request
     protected static RequestSpecBuilder buildPlainRequestSpec() {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON);

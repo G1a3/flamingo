@@ -113,10 +113,14 @@ public class PracticeFormPage extends BasePage {
     public PracticeFormPage selectStateAndCity(String state, String city) {
         AllureSteps.step("Select state and city: " + state + ", " + city, page, () -> {
             stateDropdown.click();
-            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(state).setExact(true)).click();
+            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(state).setExact(true))
+                    .first()
+                    .click();
             cityDropdown.click();
-            Locator cityOption = page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(city).setExact(true));
+            Locator cityOption = page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(city).setExact(true))
+                    .last();
             cityOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+            cityOption.scrollIntoViewIfNeeded();
             cityOption.click();
         });
         return this;
